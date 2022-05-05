@@ -137,7 +137,7 @@ int main()
     system("cls");
     cout <<"Adres IP: "<<binToDec(ip_To_Binary(ipFromInput)) << "\n";
     cout <<"Maska: "<<binToDec(bit_mask(amountOfBits)) << "\n";
-    cout <<"Adres sieci: "<<binToDec(network(ip_To_Binary(ipFromInput),amountOfBits)) << "/"<<amountOfBits<<"\n";
+    cout <<"Adres sieci: "<<binToDec(network(ip_To_Binary(ipFromInput),amountOfBits)) << "\n";
     cout <<"Adres rozgloszeniowy: " << binToDec(broadcast(ip_To_Binary(ipFromInput),amountOfBits)) << "\n";
     cout << "Ilosc hostow w sieci: "<< evilThing <<"\n";
     cout << "Host min: " << binToDec(minHost(network(ip_To_Binary(ipFromInput),amountOfBits))) << "\n";
