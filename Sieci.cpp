@@ -18,7 +18,6 @@ struct subNET
 struct Page
 {
     unsigned long long int howMany;
-    subNET *ptr;
     vector <subNET> OUT;
 };
 
