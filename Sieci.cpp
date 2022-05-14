@@ -195,11 +195,11 @@ private:
         buff.sub_network = bin_IP;
         unsigned long long int counter = 0;
         unsigned long long int amount = ones;
-        for (unsigned long long int i = 1; i <= am; i++)
+        for (unsigned long long int i = 1; i <= am && i < 13; i++)
         {
             in[i-1].howMany = pow(2,i);
         }
-        for (unsigned long long i = 0; i < am; i++)
+        for (unsigned long long i = 0; i < am && i < 12; i++)
         {
             lastM = binM;
             amount = ones;
@@ -215,7 +215,10 @@ private:
                     amount++;
                 }
             }
-            buff.sub_amountOfHosts = pow(2,32-amount)-2;;
+
+            buff.sub_amountOfHosts = pow(2,32-amount)-2;
+            if (pow(2,32-amount) - 2 <= 0)
+                buff.sub_amountOfHosts = 0;
             buff.sub_bitMask = lastM;
             buff.sub_broadcast = broadcast(lastIP,amount);
             buff.sub_network = bin_IP;
@@ -288,41 +291,57 @@ public:
         cout << "Klasa:                 " << oldClass               << "\n";
         if (amountOfSubNETS != 0)
         {
-            amountOfPages = new Page [amountOfSubNETS-1];
-            lookOut(amountOfPages,amountOfSubNETS-1,binMask,binNetwork,amountOfBits);
-            cout << "Kliknij D by wyswietlic podzial podsieci: ";
+            amountOfPages = new Page [amountOfSubNETS];
+            lookOut(amountOfPages,amountOfSubNETS,binMask,binNetwork,amountOfBits);
+            cout << "Kliknij D by wyswietlic podzial podsieci \n";
+            cout << "Kliknij X by zakonczyc program \n";
             while(true)
             {
                 c = _getch();
-                if (c == 'd' || c == 'D')
+                if (c == 'd' || c == 'D' || c == 'x' || c == 'X')
                 {
                     break;
                 }
             }
-
             int counter = 0;
-            do
+            if (c != 'x' && c != 'X')
             {
-                system("cls");
-                outputPage(amountOfPages[counter]);
-                cout << "Kliknij D by wyswietlic nastepna strone albo X by wylaczyc program: \n";
-                while(true)
+                do
                 {
-                    c = _getch();
-                    if (c == 'd' || c == 'D' || c == 'x' || c == 'X')
+                    system("cls");
+                    outputPage(amountOfPages[counter]);
+                    if (counter != amountOfSubNETS-1 && counter != 12)
+                        cout << "Kliknij D by wyswietlic nastepna strone \n";
+                    cout << "Kliknij X by zakonczyc program \n";
+                    if (counter != 0)
+                        cout << "Kliknij A by wrocic do poprzedniej strony \n";
+                    while(true)
                     {
-                        break;
+                        c = _getch();
+                        if ( c == 'x' || c == 'X')
+                        {
+                            break;
+                        }
+                        if ((c == 'd' || c == 'D') && counter != 12 && counter != amountOfSubNETS-1)
+                        {
+                            counter++;
+                            break;
+                        }
+                        if (c == 'A' || c == 'a' && counter != 0)
+                        {
+                            counter -= 1;
+                            break;
+                        }
                     }
-
+                    if (c == 'x' || c == 'X')
+                        break;
                 }
-                if (c == 'x' || c == 'X')
-                    break;
-                counter++;
+                while(true);
             }
-            while(counter != amountOfSubNETS-1);
+            system("cls");
+            delete [] amountOfPages;
+            amountOfPages = nullptr;
         }
-        delete [] amountOfPages;
-        amountOfPages = nullptr;
     }
 };
 
@@ -330,6 +349,5 @@ int main()
 {
     cout.tie(0);
     IP output;
-    system("cls");
     return 0;
 }
